@@ -140,9 +140,20 @@ _Below is an example of how you can instruct your audience on installing and set
    npm install
    ```
 4. Enter your API in `config.js`
+
    ```js
    const API_KEY = "ENTER YOUR API";
    ```
+
+5. dependencies used Openzepplinc contracts / hardhat-deploy
+
+   ```sh
+   yarn add --dev @openzeppelin/contracts
+   ```
+
+```sh
+yarn add --dev @openzeppelin/contracts
+```
 
 Try running some of the following tasks:
 
@@ -152,6 +163,16 @@ npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat run scripts/deploy.js
+```
+
+In case of error: \_TypeError: ethers.getContract is not a function
+
+```sh
+yarn add --dev hardhat @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers
+```
+
+see https://ethereum.stackexchange.com/questions/130125/solvedpatrickcollins-solidity-course-2022-lesson-7-112038-typeerror-e
+
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -266,13 +287,5 @@ Use this space to list resources you find helpful and would like to give credit 
 [bootstrap-url]: https://getbootstrap.com
 [jquery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [jquery-url]: https://jquery.com
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
+[readme-top]: #readme-top
 ```
