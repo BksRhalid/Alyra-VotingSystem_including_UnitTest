@@ -14,54 +14,12 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
         deployer = accounts[0];
       });
 
-      //   describe("Check each steap of Workflows", function () {
-      //     beforeEach(async function () {
-      //       await deployments.fixture(["voting"]);
-      //       voting = await ethers.getContract("Voting");
-      //     });
-      //     it("should start Proposal registering if the owner", async function () {
-      //       await expect(voting.startProposalsRegistering())
-      //         .to.emit(voting, "WorkflowStatusChange")
-      //         .withArgs(0, 1);
-      //     });
-      //     it("should end Proposal registering if the owner", async function () {
-      //       await voting.startProposalsRegistering();
-      //       await expect(voting.endProposalsRegistering())
-      //         .to.emit(voting, "WorkflowStatusChange")
-      //         .withArgs(1, 2);
-      //     });
-      //     it("should start voting session if the owner", async function () {
-      //       await voting.startProposalsRegistering();
-      //       await voting.endProposalsRegistering();
-      //       await expect(voting.startVotingSession())
-      //         .to.emit(voting, "WorkflowStatusChange")
-      //         .withArgs(2, 3);
-      //     });
-      //     it("should end voting session if the owner", async function () {
-      //       await voting.startProposalsRegistering();
-      //       await voting.endProposalsRegistering();
-      //       await voting.startVotingSession();
-      //       await expect(voting.endVotingSession())
-      //         .to.emit(voting, "WorkflowStatusChange")
-      //         .withArgs(3, 4);
-      //     });
-      //     it("should launch tallyVotes if the owner", async function () {
-      //       await voting.startProposalsRegistering();
-      //       await voting.endProposalsRegistering();
-      //       await voting.startVotingSession();
-      //       await voting.endVotingSession();
-      //       await expect(voting.tallyVotes())
-      //         .to.emit(voting, "WorkflowStatusChange")
-      //         .withArgs(4, 5);
-      //     });
-      //   });
-
       describe("🔎 Control workflow status not allow to change if previous status is NOT correct", function () {
         beforeEach(async function () {
           await deployments.fixture(["voting"]);
           vote = await ethers.getContract("Voting");
         });
-        it("should NOT start Proposal registering if incorrect WF", async function () {
+        it("should NOT start Proposal registering if the workflow status is not the expected one", async function () {
           await voting.startProposalsRegistering();
           await expect(voting.startProposalsRegistering()).to.be.revertedWith(
             "Registering proposals cant be started now"
@@ -79,7 +37,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
             "Registering proposals cant be started now"
           );
         });
-        it("should NOT end Proposal registering if incorrect WF", async function () {
+        it("should NOT end Proposal registering if the workflow status is not the expected one", async function () {
           await expect(voting.endProposalsRegistering()).to.be.revertedWith(
             "Registering proposals havent started yet"
           );
@@ -115,7 +73,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
             "Registering proposals phase is not finished"
           );
         });
-        it("should NOT end voting session if incorrect WF", async function () {
+        it("should NOT end voting session if the workflow status is not the expected one", async function () {
           await expect(voting.endVotingSession()).to.be.revertedWith(
             "Voting session havent started yet"
           );
@@ -150,6 +108,48 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
             "Current status is not voting session ended"
           );
           await voting.endVotingSession();
+        });
+      });
+
+      describe("🔎  Check event of each workflow status change", function () {
+        beforeEach(async function () {
+          await deployments.fixture(["voting"]);
+          voting = await ethers.getContract("Voting");
+        });
+        it("should start Proposal registering if the owner", async function () {
+          await expect(voting.startProposalsRegistering())
+            .to.emit(voting, "WorkflowStatusChange")
+            .withArgs(0, 1);
+        });
+        it("should end Proposal registering if the owner", async function () {
+          await voting.startProposalsRegistering();
+          await expect(voting.endProposalsRegistering())
+            .to.emit(voting, "WorkflowStatusChange")
+            .withArgs(1, 2);
+        });
+        it("should start voting session if the owner", async function () {
+          await voting.startProposalsRegistering();
+          await voting.endProposalsRegistering();
+          await expect(voting.startVotingSession())
+            .to.emit(voting, "WorkflowStatusChange")
+            .withArgs(2, 3);
+        });
+        it("should end voting session if the owner", async function () {
+          await voting.startProposalsRegistering();
+          await voting.endProposalsRegistering();
+          await voting.startVotingSession();
+          await expect(voting.endVotingSession())
+            .to.emit(voting, "WorkflowStatusChange")
+            .withArgs(3, 4);
+        });
+        it("should launch tallyVotes if the owner", async function () {
+          await voting.startProposalsRegistering();
+          await voting.endProposalsRegistering();
+          await voting.startVotingSession();
+          await voting.endVotingSession();
+          await expect(voting.tallyVotes())
+            .to.emit(voting, "WorkflowStatusChange")
+            .withArgs(4, 5);
         });
       });
     });

@@ -13,7 +13,7 @@
   <h3 align="center">Alyra Voting System Project</h3>
 
   <p align="center">
-    This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+    This project was perform for Alya Solidity training. It demonstrates how to implement a javascript unit test for that contract.
     <br />
     <a href="https://github.com/BksRhalid/Alyra-VotingSystem_including_UnitTest"><strong>Explore the docs »</strong></a>
     <br />
@@ -49,19 +49,101 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+The objective of the exercise is to provide the unit tests of a smart contract including everts and revert.
 
-Here's why:
+the contract to be tested is based on a previous project. See below the repo link :
 
-- Your time should be focused on creating something amazing. A project that solves a problem and helps others
-- You shouldn't be doing the same tasks over and over like creating a README from scratch
-- You should implement DRY principles to the rest of your life :smile:
+[Voting.sol](https://github.com/lecascyril/CodesRinkeby/blob/main/voting.sol)
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+In this context, we have created three test files: :
 
-Use the `BLANK_README.md` to get started.
+- `Ownable.test.js` : to test if Ownable from openzepplin is correctly implemented
+  <br>
+  ```sh
+     Units tests on Ownable access functions
+    🔎 Test Ownable Revert if the owner is not the caller
+      ✔ should NOT start Proposal session registering if caller is not the owner (58ms)
+      ✔ should NOT end Proposal session registering if caller is not the owner (46ms)
+      ✔ should NOT start voting session if caller is not the owner (50ms)
+      ✔ should NOT end voting session  if caller is not the owner (60ms)
+      ✔ should NOT start tallyVotes if caller is not the owner (56ms)
+  ```
+- `Voting.test.js` : to test the each function of Voting smart contract separately
+  <br>
+
+  ```sh
+    Units tests of each function of voting smart contract
+    🔎 Deployment hardhat deploy testing
+      ✔ should deploy the smart contract
+    🔎 Get add new voters function unit test
+      ✔ should emit event VoterRegistered
+      ✔ should be able to set owner as a voter
+      ✔ should add a new voter_1 and change bool isRegistered from false to true (40ms)
+      ✔ should NOT add a new voter and revert caller is not the owner
+    🔎 Get voters function unit test
+      ✔ should return true for _owner and false for voter_1 not yet Registered
+      ✔ should revert as voter is not registered
+    🔎 AddVoter failed as voter registration is not open yet
+      ✔ should NOT addVoter and revert with Voters registration is not open yet (95ms)
+      ✔ should NOT addVoter if not the owner
+    🔎 Get add new proposal function unit test
+      ✔ should add a new proposal
+      ✔ should emit event add proposal
+    🔎  AddProposals failed as Proposals are not allowed yet
+      ✔ should NOT addProposals and revert with Proposals are not allowed yet (109ms)
+      ✔ should NOT addProposal if caller is not a Voter
+    🔎 getOneProposal function unit test
+      ✔ should NOT give proposal if not Voter (48ms)
+    🔎 Get add new vote function unit test
+      ✔ should add a new vote and increment voteCount
+    🔎 Test revert setVote function unit test
+      ✔ should revert setVote as the voting session not started (92ms)
+      ✔ should revert as caller is not a voter (60ms)
+      ✔ should revert with Voting session havent started yet (73ms)
+      ✔ should revert with Proposal not found (47ms)
+    🔎 Get end voting session function unit test
+      ✔ should end the voting session (81ms)
+    🔎 TallyVotes function unit test
+      ✔ should return the winning proposal
+      ✔ should change the status
+    🔎 TallyVotes revert function unit test
+      ✔ should NOT work if not votingSessionEnded
+      ✔ should NOT work if not Owner (49ms)
+  ```
+
+- `VotingWorkflow.test.js` : to test the overall workflow of the Voting contract
+  <br>
+  ````sh
+      Units tests for overall workflow of voting smart contract
+    🔎 Control workflow status not allow to change if previous status is NOT correct
+      ✔ should NOT start Proposal registering if the workflow status is not the expected one (67ms)
+      ✔ should NOT end Proposal registering if the workflow status is not the expected one (63ms)
+      ✔ should NOT start voting session in incorrect WF (62ms)
+      ✔ should NOT end voting session if the workflow status is not the expected one (58ms)
+      ✔ should NOT launch tallyVotes (65ms)
+    🔎  Check event of each workflow status change
+      ✔ should start Proposal registering if the owner
+      ✔ should end Proposal registering if the owner
+      ✔ should start voting session if the owner
+      ✔ should end voting session if the owner
+      ✔ should launch tallyVotes if the owner (45ms)
+    ```
+  ````
+
+<strong> Below the coverage report of the test :</strong>
+
+```sh
+-------------|----------|----------|----------|----------|----------------|
+File         |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+-------------|----------|----------|----------|----------|----------------|
+ contracts/  |      100 |    93.75 |      100 |      100 |                |
+  Voting.sol |      100 |    93.75 |      100 |      100 |                |
+-------------|----------|----------|----------|----------|----------------|
+All files    |      100 |    93.75 |      100 |      100 |                |
+-------------|----------|----------|----------|----------|----------------|
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -69,12 +151,11 @@ Use the `BLANK_README.md` to get started.
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Below the instructions on setting up your project locally. To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+Here the list things you need to use the software and how to install them.
 
 - For this project we are going to use yarn
 
@@ -94,7 +175,7 @@ npm install --global yarn
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+\_Below instruction installing and setting up the project.
 
 1. Clone the repo
    ```sh
@@ -145,29 +226,8 @@ yarn add --dev hardhat @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ether
 Try running some of the following tasks:
 
 ```shell
-npx hardhat help
-npx hardhat test
 REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
 ```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -176,16 +236,6 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT License.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ACKNOWLEDGMENTS -->
-
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-- [Choose an Open Source License](https://choosealicense.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

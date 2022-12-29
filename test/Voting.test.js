@@ -174,7 +174,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 
       // Unit test for Get one proposal
 
-      describe("getOneProposal", function () {
+      describe("🔎 getOneProposal function unit test ", function () {
         beforeEach(async function () {
           await deployments.fixture(["voting"]);
           voting = await ethers.getContract("Voting");

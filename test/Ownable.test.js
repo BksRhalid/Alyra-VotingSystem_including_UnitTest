@@ -4,7 +4,7 @@ const { developmentChains } = require("../helper-hardhat-config");
 
 !developmentChains.includes(network.name)
   ? describe.skip
-  : describe("Units tests on Workflows status", function () {
+  : describe("Units tests on Ownable access functions", function () {
       let accounts;
       let vote;
 
