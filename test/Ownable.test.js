@@ -19,25 +19,25 @@ const { developmentChains } = require("../helper-hardhat-config");
           await deployments.fixture(["voting"]);
           voting = await ethers.getContract("Voting");
         });
-        it("should NOT start Proposal registering if NOT the owner", async function () {
+        it("should NOT start Proposal session registering if caller is not the owner", async function () {
           await expect(
             voting.connect(accounts[1]).startProposalsRegistering()
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
-        it("should NOT end Proposal registering if NOT the owner", async function () {
+        it("should NOT end Proposal session registering if caller is not the owner", async function () {
           await voting.startProposalsRegistering();
           await expect(
             voting.connect(accounts[1]).endProposalsRegistering()
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
-        it("should NOT start voting session if NOT the owner", async function () {
+        it("should NOT start voting session if caller is not the owner", async function () {
           await voting.startProposalsRegistering();
           await voting.endProposalsRegistering();
           await expect(
             voting.connect(accounts[1]).startVotingSession()
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
-        it("should NOT end voting session if NOT the owner", async function () {
+        it("should NOT end voting session  if caller is not the owner", async function () {
           await voting.startProposalsRegistering();
           await voting.endProposalsRegistering();
           await voting.startVotingSession();
@@ -45,7 +45,7 @@ const { developmentChains } = require("../helper-hardhat-config");
             voting.connect(accounts[1]).endVotingSession()
           ).to.be.revertedWith("Ownable: caller is not the owner");
         });
-        it("should NOT launch tallyVotes if NOT the owner", async function () {
+        it("should NOT start tallyVotes if caller is not the owner", async function () {
           await voting.startProposalsRegistering();
           await voting.endProposalsRegistering();
           await voting.startVotingSession();

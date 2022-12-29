@@ -56,7 +56,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
       //     });
       //   });
 
-      describe("🔎 Control workflow status not able change if wrong previous status", function () {
+      describe("🔎 Control workflow status not allow to change if previous status is NOT correct", function () {
         beforeEach(async function () {
           await deployments.fixture(["voting"]);
           vote = await ethers.getContract("Voting");
